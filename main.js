@@ -46,7 +46,6 @@ const view = {
   displayCards(indexes) {  // 當物件的屬性與函式/變數名稱相同時，可以省略不寫 : displayCards: function displayCards() { ...  }
     const rootElement = document.querySelector('#cards')
     rootElement.innerHTML = indexes.map(index => this.getCardElements(index)).join('')
-    // Array.from會從類陣列（array-like）或是可迭代（iterable）物件建立一個新的 Array 實體，在將其Array利用map丟入函式後會變成52張卡片的陣列，用join把陣列合併成一個大字串，才能當成 HTML template 來使用；
   },
 
   // flipCard(...card) 可以接受傳入多個參數 (1, 2, 3, 4, 5)
@@ -114,11 +113,6 @@ const utility = {
     const number = Array.from(Array(count).keys())
     for (let index = number.length - 1; index > 0; index--) {
       let randomIndex = Math.floor(Math.random() * (index + 1))
-        // [1,2,3,4,5]  若是不用解構賦值交換變數位置時，只能利用某變數暫時存放後去進行交換的動作
-        // const temp = 1
-        // arr[4] = temp
-        // arr[0] = 5
-
         ;[number[index], number[randomIndex]] = [number[randomIndex], number[index]]
     }
     return number
@@ -182,7 +176,6 @@ const controller = {  // 狀態定義在 controller 裡面
           view.appendWrongAnimation(...model.revealedCards)
           setTimeout(this.resetCards, 1000)  // setTimeout 第一個傳入的參數要是 function本身， 1000毫秒為1秒
         }
-        //  console.log(model.revealedCardsMatch())
         break
     }
 
@@ -195,14 +188,13 @@ const controller = {  // 狀態定義在 controller 裡面
     view.flipCards(...model.revealedCards)
     model.revealedCards = []
     // console.log(this)
-    controller.currentState = GAME_STATE.firstCard  // 這裡要將this.currentState改成controller，因為我們把 resetCards 當成參數傳給 setTimeout 時，this 的對象變成了 setTimeout，而 setTimeout 又是一個由瀏覽器提供的東西，所以這裡的this會指向window
+    controller.currentState = GAME_STATE.firstCard
   }
 
 }
 
 
 controller.generateCards()
-// console.log(utility.getRandomNumberArray(5))
 
 // querySelectorAll回傳的是 Node list (array-like)
 document.querySelectorAll('.card').forEach(card => {
